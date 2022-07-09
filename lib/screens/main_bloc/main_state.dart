@@ -11,10 +11,10 @@ abstract class MainState  extends Equatable{
 class MainInitial extends MainState {}
 
 class MainLoaded extends MainState{
-  final List<Article> articlesFirst;
-  final List<Article> articlesSecond;
+  final List<Article> articles;
 
-  const MainLoaded({required this.articlesFirst,required this.articlesSecond});
+
+  const MainLoaded({required this.articles});
   @override
-  List<Object> get props => [articlesFirst,articlesSecond];
+  List<Object> get props => [articles];
 }

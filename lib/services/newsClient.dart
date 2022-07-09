@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:neyex_home_assignment/screens/models/news_article.dart';
+import 'package:neyex_home_assignment/models/news_article.dart';
 import 'package:retrofit/retrofit.dart';
 
 

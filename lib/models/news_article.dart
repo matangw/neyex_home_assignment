@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:floor/floor.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:neyex_home_assignment/screens/models/source_model.dart';
+import 'package:neyex_home_assignment/models/source_model.dart';
 part 'news_article.g.dart';
 
 @JsonSerializable (explicitToJson :  true )
