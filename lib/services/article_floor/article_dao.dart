@@ -1,7 +1,7 @@
 
 import 'package:floor/floor.dart';
-import 'package:neyex_home_assignment/screens/models/news_article.dart';
-import 'package:neyex_home_assignment/screens/models/source_model.dart';
+import 'package:neyex_home_assignment/models/news_article.dart';
+import 'package:neyex_home_assignment/models/source_model.dart';
 
 @dao
 abstract class ArticleDao {

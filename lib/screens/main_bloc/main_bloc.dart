@@ -7,7 +7,8 @@ import 'package:meta/meta.dart';
 import 'package:neyex_home_assignment/global_vars.dart';
 import 'package:neyex_home_assignment/repository/news_repository.dart';
 
-import '../models/news_article.dart';
+import '../../models/news_article.dart';
+
 
 part 'main_event.dart';
 part 'main_state.dart';
@@ -26,7 +27,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           'business',
           'en',
           '');
-      emit(MainLoaded(articlesFirst: articlesFirst,articlesSecond: articlesSecond));
+      List<Article> articles = articlesFirst;
+      articles.addAll(articlesSecond);
+      articles.sort((a,b)=> a.publishedAt.compareTo(b.publishedAt));
+      emit(MainLoaded(articles: articles));
     });
 
 
@@ -34,7 +38,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       if(state is  MainLoaded){
         final state= this.state as MainLoaded;
         emit(
-          MainLoaded(articlesFirst: [], articlesSecond: [])
+          MainLoaded(articles: [])
         );
       }
     });

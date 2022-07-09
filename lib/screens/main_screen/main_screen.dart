@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neyex_home_assignment/screens/main_bloc/main_bloc.dart';
-import 'package:neyex_home_assignment/screens/models/news_article.dart';
+import 'package:neyex_home_assignment/models/news_article.dart';
 class MainScreenBlock extends StatefulWidget{
 
 
@@ -33,7 +33,7 @@ class _MainScreenBlockState extends State<MainScreenBlock> {
               return Center(child: CircularProgressIndicator(color: Colors.blue,));
             }
             if(state is MainLoaded){
-              return mainScreenContainer(height*0.8, width, state.articlesFirst,context);
+              return mainScreenContainer(height*0.8, width, state.articles,context);
             }
             else{
               return Container();

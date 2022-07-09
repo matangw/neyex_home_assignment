@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../screens/models/news_article.dart';
+import '../models/news_article.dart';
 import '../services/newsClient.dart';
 
 class NewsRepository {
