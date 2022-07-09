@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:neyex_home_assignment/screens/services/newsClient.dart';
 
 import '../screens/models/news_article.dart';
+import '../services/newsClient.dart';
 
 class NewsRepository {
 
