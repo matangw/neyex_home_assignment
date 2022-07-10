@@ -22,11 +22,9 @@ class MainScreenRefresh extends MainEvent{
 
 
 class MainScreenClean extends MainEvent{
-    final List<Article> articlesFirst =[];
-    final List<Article> articlesSecond =[];
 
     MainScreenClean ();
 
     @override
-    List<Object> get props => [articlesFirst,articlesSecond];
+    List<Object> get props => [];
 }

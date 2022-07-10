@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:neyex_home_assignment/screens/main_bloc/main_bloc.dart';
 import 'package:neyex_home_assignment/models/news_article.dart';
+import 'package:url_launcher/url_launcher.dart';
 class MainScreenBlock extends StatefulWidget{
 
 
@@ -58,11 +60,23 @@ class _MainScreenBlockState extends State<MainScreenBlock> {
           ),
           Expanded(
             child: Container(
-              child: ListView.builder(
+              width: width*0.95,
+              child: articles.isNotEmpty?ListView.builder(
                 itemCount: articles.length,
                   itemBuilder: (context,index){
-                return newsContainer(height*0.25, width, articles[index]);
-              }),
+                return newsContainer(height*0.25, width*0.95, articles[index]);
+              })
+
+              ///This only excuted when there is no connections and its the first app run
+                  : Center(child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                       Icon(Icons.cancel,color: Colors.blue,size: height*0.2,),
+                      SizedBox(height: height*0.05,),
+                      Text('NO DATA',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),),
+                    ],
+                  ))
             ),
           ),
         ],
@@ -109,43 +123,75 @@ class _MainScreenBlockState extends State<MainScreenBlock> {
 
 
   Widget newsContainer(double height,double width,Article article){
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: height*0.05),
-      elevation: 15,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(height*0.2)),
-      child: Container(
-        height: height,
-        width: width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(width: width*0.05,),
-            CircleAvatar(
-              radius: width*0.15,
-              backgroundImage:article.urlToImage==''? null : CachedNetworkImageProvider(article.urlToImage),
-              child: article.urlToImage==''? Text('No image') : SizedBox(),
-            ),
-            SizedBox(width: width*0.05,),
-            Container(
-              height: height*0.9,
-              width: width*0.5,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(height:height*0.3,child: Text(article.title,overflow: TextOverflow.ellipsis,maxLines: 3,style: TextStyle(fontWeight: FontWeight.w700),)),
-                  SizedBox(height: height*0.05,),
-                  Container(height: height*0.2,child: Text('Author: ${article.author}',style: TextStyle(fontWeight: FontWeight.w500),)),
-                  SizedBox(height: height*0.05,),
-                  Container(height:height*0.3, child: Text(article.description,maxLines: 4,overflow: TextOverflow.fade,))
-                ],
+    return InkWell(
+      onTap: ()=> _launchUrl(article.url),
+      child: Card(
+        margin: EdgeInsets.symmetric(vertical: height*0.05),
+        elevation: 10,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(height*0.2)),
+        child: Container(
+          height: height,
+          width: width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(width: width*0.05,),
+              CircleAvatar(
+                radius: width*0.15,
+                backgroundImage:article.urlToImage==''? null : CachedNetworkImageProvider(article.urlToImage),
+                child: article.urlToImage==''? Text('No image') : SizedBox(),
               ),
-            ),
-            SizedBox(width: width*0.05,)
-          ],
+              SizedBox(width: width*0.05,),
+              Container(
+                height: height*0.9,
+                width: width*0.5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(height:height*0.3,child: Text(article.title,overflow: TextOverflow.ellipsis,maxLines: 3,style: TextStyle(fontWeight: FontWeight.w700),)),
+                    SizedBox(height: height*0.05,),
+                    Container(height: height*0.2,child: Text('Author: ${article.author}',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    SizedBox(height: height*0.05,),
+                    Container(height:height*0.3, child: Text(article.description,maxLines: 4,overflow: TextOverflow.fade,))
+                  ],
+                ),
+              ),
+              SizedBox(width: width*0.05,)
+            ],
+          ),
         ),
       ),
     );
   }
+
+  void showSnackBar(){
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not launch url',style: TextStyle(color: Colors.white),)
+          ,backgroundColor: Colors.red,)
+    );
+  }
+
+  void _launchUrl(String url) async {
+    bool online =await  isConnected();
+    if(!online){
+      showSnackBar();
+      return;
+    }
+     bool success = await launchUrl(Uri.parse(url)).catchError((_)=>false);
+     if(!success){
+       showSnackBar();
+     }
+  }
+
+  Future<bool> isConnected()async{
+    bool result = await InternetConnectionChecker().hasConnection;
+    if(result == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

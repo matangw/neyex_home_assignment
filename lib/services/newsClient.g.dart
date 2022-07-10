@@ -40,12 +40,9 @@ class _NewsClient implements NewsClient {
 
       )
     );
-    print('[!] THIS IS THE STATUS CODE: '+_result.statusCode.toString());
-    print('[!] THIS IS THE HEADERS: '+_result.headers.map['Content-Type'].toString());
-    print('[!] THIS IS THE DATA:' + _result.data['articles'].toString());
+
     List<Article> value = [];
     List<dynamic> jsonList = _result.data['articles'];
-    print('[!] JSON LIST LENGTH : '+ jsonList.length.toString());
     for(var j in jsonList){
       value.add(Article.fromJson(j));
     }
