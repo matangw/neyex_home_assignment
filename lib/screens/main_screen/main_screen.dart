@@ -25,7 +25,7 @@ class _MainScreenBlockState extends State<MainScreenBlock> {
     return MultiBlocProvider(providers: [
       BlocProvider(create: (context)=> MainBloc()..add(LoadMainScreen()))
     ], child: Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text('NEYEX HOME ASSIGNMENT'),),
       body: Container(
         height: height,
         width: width,
