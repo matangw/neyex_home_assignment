@@ -21,6 +21,7 @@ Work flow :
             I used another library that called sharedPreffrences and I implemented the local data base with it.
     6) - Took care of endpoints such as no internet connection and made the news widget press able and it will send to user 
             to url,  and if the url cannot be launched it will show a toast with the correct message.
-    7) - Little refactoring and removing unneeded prints 
+    8) - Made 2 api calls from the bloc and combined them by date order.
+    9) - Bug fixing and little refactoring + removing unneeded prints. 
     
 
